@@ -179,3 +179,18 @@ toyota = Car.new
 
 honda.go! # => "Raaaghn!"
 toyota.go! # => "Screeeeetch!"
+
+#===
+module Excitable
+  def shout!
+    "Don't tell me what to do!"
+  end
+end
+
+class Person
+  extend Excitable
+end
+
+Person.shout! # => "Don't tell me what to do!"
+bob = Person.new
+bob.shout!  # => undefined method `shout!' for #<Person:0x007fad09829390>
