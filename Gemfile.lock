@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    coderay (1.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  coderay
+
+BUNDLED WITH
+   1.10.6

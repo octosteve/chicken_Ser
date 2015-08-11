@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require 'coderay'
+
+abort "Provide file to read" unless ARGV[0]
+source = File.readlines(ARGV[0])
+
+GARBAGE = "Object.send(:remove_const"
+source.slice_before{|l| l.include?("#===")}.each.with_index(1) do |example, i|
+  example.shift
+  puts "\e[H\e[2J"
+  puts "Example ##{i}."
+  puts "==============="
+  puts puts CodeRay.encode(example.reject{|l| l.include?(GARBAGE)}.join, :ruby, :term)
+  puts "==============="
+  puts "Press enter for the next example"
+  STDIN.gets.chomp
+end
+puts "YOU'RE DONE!"
