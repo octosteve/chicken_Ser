@@ -1,0 +1,114 @@
+javascript
+#===
+var name = "Steven";
+name; // Steven
+#===
+var name = "Steven";
+if(name === "Steven"){
+  "What a nice mohawk";
+}else{
+  "Your hair is alright, I guess";
+}
+// What a nice mohawk
+#===
+var person = {
+  name: "Steven"
+};
+person["name"] // Steven
+person.name    // Steven
+#===
+var person = {
+  name: "Steven",
+  profession: "Teacher"
+};
+person.likes = "Bourbon";
+person.likes; // Bourbon
+#===
+function sayHello(){
+  return "Hello";
+}
+sayHello(); // Hello
+#===
+function sayHelloTo(person){
+  return "Hello, " + person;
+}
+sayHelloTo("Bob"); // Hello, Bob
+#===
+var bob = {
+  name: "Bob",
+  introduce: function(){
+    return "Oh Hai! I'm " + this.name;
+  }
+};
+
+bob.introduce(); // Oh Hai! I'm Bob
+#===
+function Person(name){
+  this.name = name;
+}
+var bob = new Person("Bob");
+bob.name; // Bob
+#===
+function Person(name){
+  this.name = name;
+}
+Person.prototype.introduce = function(){
+  return "Oh Hai! I'm " + this.name;
+}
+var bob = new Person("Bob");
+bob.introduce(); // Oh Hai! I'm Bob
+#===
+var outside = "I'm outside";
+function whatIsOutside(){
+  return outside;
+}
+
+whatIsOutside(); // I'm outside;
+#===
+function youCanNotSeeMe(){
+  var secret = 42;
+}
+
+youCanNotSeeMe();
+secret; // Error: secret is not defined.
+#===
+var canSee = true;
+function performMagicTrick(){
+  canSee = false;
+}
+
+canSee; // true
+performMagicTrick(); 
+canSee; // false
+#===
+var theBoss = "My Wife";
+function assertDominanceInMyHead(){
+  var theBoss = "Me!!"
+}
+
+theBoss; // My Wife
+assertDominanceInMyHead();
+theBoss; // My Wife
+#===
+(function(){
+  return "If a function is defined and never called, does it make a sound?"
+}); // nothing happens
+#===
+(function(){
+  return "Right Away!"
+})(); // Right Away!
+#===
+function add(first, second){
+  return first + second;
+}
+function calculate(number1, number2, calculationFunction){
+  return calculationFunction(number1, number2)
+}
+calculate(5, 5, add); // 10 
+#===
+function calculate(number1, number2, calculationFunction){
+  return calculationFunction(number1, number2)
+}
+calculate(5, 5, function(first, second){
+  return first + second;
+}); // 10

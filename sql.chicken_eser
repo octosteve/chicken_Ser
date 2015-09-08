@@ -1,0 +1,267 @@
+#===
+SELECT name FROM sqlite_master WHERE name='artists'
+-- Empty
+CREATE TABLE artists(name TEXT);
+SELECT name FROM sqlite_master WHERE name='artists'
+-- name
+-- ----------
+-- artists
+#===
+CREATE TABLE artists(name TEXT);
+DROP TABLE artists;
+SELECT name FROM sqlite_master WHERE name='artists'
+-- Empty
+#===
+CREATE TABLE artists(name TEXT);
+CREATE TABLE artists(name TEXT);
+-- Error: table artists already exists
+#===
+CREATE TABLE artists(name TEXT);
+CREATE TABLE IF NOT EXISTS artists(name TEXT);
+-- No Error
+#===
+SELECT name FROM sqlite_master WHERE type='table' AND name='artists';
+-- Empty
+DROP TABLE artists;
+-- Error: no such table: artists
+#===
+SELECT name FROM sqlite_master WHERE type='table' AND name='artists';
+-- Empty
+DROP TABLE IF EXISTS artists;
+-- No Error
+#===
+CREATE TABLE artists(name TEXT);
+SELECT COUNT(*) FROM artists;
+-- 0
+#===
+CREATE TABLE artists(name TEXT);
+INSERT INTO artists(name) VALUES ("Drake");
+SELECT COUNT(*) FROM artists;
+-- 1
+#===
+CREATE TABLE artists(name TEXT);
+INSERT INTO artists(name) VALUES ("Drake");
+INSERT INTO artists(name) VALUES ("FKA Twigs");
+SELECT COUNT(*) FROM artists;
+-- 2
+#===
+CREATE TABLE artists(name TEXT);
+INSERT INTO artists(name) VALUES ("Drake"), ("FKA Twigs");
+SELECT COUNT(*) FROM artists;
+-- 2
+#===
+CREATE TABLE artists(name TEXT);
+INSERT INTO artists(name) VALUES ("Drake");
+SELECT * FROM artists;
+-- name
+-- ----------
+-- Drake
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+INSERT INTO artists(name) VALUES ("Drake"), ("FKA Twigs");
+SELECT * FROM artists;
+-- id          name
+-- ----------  ----------
+-- 1           Drake
+-- 2           FKA Twigs
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+INSERT INTO artists(name) VALUES ("Drake"), ("FKA Twigs");
+SELECT name FROM artists;
+-- name
+-- ----------
+-- Drake
+-- FKA Twigs
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+INSERT INTO artists(name) VALUES ("Drake"), ("FKA Twigs");
+SELECT name AS stage_name FROM artists;
+-- stage_name
+-- ----------
+-- Drake
+-- FKA Twigs
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+INSERT INTO artists(name) VALUES ("Drake"), ("FKA Twigs");
+
+SELECT *
+FROM artists
+WHERE name="Drake";
+-- id          name
+-- ----------  ----------
+-- 1           Drake
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+INSERT INTO artists(name) VALUES ("Drake"), ("FKA Twigs");
+
+UPDATE artists
+SET name="Meek Mill";
+
+SELECT * FROM artists;
+-- id          name
+-- ----------  ----------
+-- 1           Meek Mill
+-- 2           Meek Mill
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+INSERT INTO artists(name) VALUES ("Drake"), ("FKA Twigs");
+
+UPDATE artists
+SET name="Meek Mill"
+WHERE name="Drake";
+
+SELECT * FROM artists;
+-- id          name
+-- ----------  ----------
+-- 1           Meek Mill
+-- 2           FKA Twigs
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+INSERT INTO artists(name) VALUES ("Drake"), ("FKA Twigs");
+
+DELETE FROM artists
+WHERE name="Drake";
+
+SELECT * FROM artists;
+-- id          name
+-- ----------  ----------
+-- 2           FKA Twigs
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE albums(
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  artist_id INTEGER
+);
+
+INSERT INTO artists(name) VALUES ("Drake");
+INSERT INTO albums(name, artist_id) VALUES ("Thank Me Later", 1);
+
+SELECT *
+FROM artists
+INNER JOIN albums
+ON artists.id = albums.artist_id;
+-- id          name        id          name            artist_id
+-- ----------  ----------  ----------  --------------  ----------
+-- 1           Drake       1           Thank Me Later  1
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE albums(
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  artist_id INTEGER
+);
+
+INSERT INTO artists(name) VALUES ("Drake");
+INSERT INTO albums(name, artist_id) VALUES ("Thank Me Later", 1);
+
+SELECT artists.name, albums.name AS album_name
+FROM artists
+INNER JOIN albums
+ON artists.id = albums.artist_id;
+-- name       album_name
+-- ---------  ---------------
+-- Drake      Thank Me Later 
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE albums(
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  artist_id INTEGER
+);
+
+INSERT INTO artists(name) VALUES ("Drake"), ("Grandmaster Steve");
+INSERT INTO albums(name, artist_id) VALUES ("Thank Me Later", 1);
+
+SELECT *
+FROM artists
+INNER JOIN albums
+ON artists.id = albums.artist_id;
+-- id          name        id          name            artist_id
+-- ----------  ----------  ----------  --------------  ----------
+-- 1           Drake       1           Thank Me Later  1
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE albums(
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  artist_id INTEGER
+);
+
+INSERT INTO artists(name) VALUES ("Drake");
+INSERT INTO albums(name, artist_id) VALUES ("Thank Me Later", 1), ("Random Noise to a beat", null);
+
+SELECT *
+FROM artists
+INNER JOIN albums
+ON artists.id = albums.artist_id;
+-- id          name        id          name            artist_id
+-- ----------  ----------  ----------  --------------  ----------
+-- 1           Drake       1           Thank Me Later  1
+#===
+CREATE TABLE artists(
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE albums(
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  artist_id INTEGER
+);
+
+INSERT INTO artists(name) VALUES ("Drake"), ("Grandmaster Steve");
+INSERT INTO albums(name, artist_id) VALUES ("Thank Me Later", 1);
+
+SELECT *
+FROM artists
+LEFT OUTER JOIN albums
+ON artists.id = albums.artist_id;
+-- id                    name                  id          name            artist_id
+-- --------------------  --------------------  ----------  --------------  ----------
+-- 1                     Drake                 1           Thank Me Later  1
+-- 2                     Grandmaster Steve
