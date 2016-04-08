@@ -1,3 +1,4 @@
+ruby
 #===
 module GuitarHero
   class String
